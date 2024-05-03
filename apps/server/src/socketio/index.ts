@@ -3,7 +3,11 @@ import { Server } from 'socket.io';
 import { configureClassicGameSocket } from './classic';
 
 export const createSocketIoServer = (httpServer: HTTPServer) => {
-  const io = new Server(httpServer, {});
+  const io = new Server(httpServer, {
+    cors: {
+      origin: '*',
+    },
+  });
 
   io.on('connection', (socket) => {
     configureClassicGameSocket(socket);

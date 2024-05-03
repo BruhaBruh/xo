@@ -1,5 +1,6 @@
 import { OIcon, XIcon } from '@/components/ui';
 import { cn } from '@/lib/shadcn';
+import { PlayerStatus } from '@xo/games';
 import React from 'react';
 
 export const GameLayout: React.FC<
@@ -7,9 +8,19 @@ export const GameLayout: React.FC<
     title: string;
     withoutVersus?: boolean;
     xNickname?: string;
+    xStatus?: PlayerStatus;
     oNickname?: string;
+    oStatus?: PlayerStatus;
   }>
-> = ({ title, withoutVersus, xNickname, oNickname, children }) => (
+> = ({
+  title,
+  withoutVersus,
+  xNickname,
+  xStatus = 'waiting',
+  oNickname,
+  oStatus = 'waiting',
+  children,
+}) => (
   <>
     <h1 className="mb-2 text-center typography-small sm:typography-large">
       {title}
@@ -24,7 +35,12 @@ export const GameLayout: React.FC<
         <div className="flex items-center self-stretch gap-1 relative">
           <XIcon className="h-8 w-8 min-h-8 min-w-8" />
           {xNickname && (
-            <span className="truncate max-w-[calc(100%-2rem)]">
+            <span
+              className={cn(
+                'truncate max-w-[calc(100%-2rem)]',
+                xStatus !== 'connected' && 'text-muted-foreground'
+              )}
+            >
               {xNickname}
             </span>
           )}
@@ -40,7 +56,12 @@ export const GameLayout: React.FC<
         <div className="flex items-center self-stretch gap-1 relative">
           <OIcon className="h-8 w-8 min-h-8 min-w-8 sm:order-1" />
           {oNickname && (
-            <span className="truncate max-w-[calc(100%-2rem)]">
+            <span
+              className={cn(
+                'truncate max-w-[calc(100%-2rem)]',
+                oStatus !== 'connected' && 'text-muted-foreground'
+              )}
+            >
               {oNickname}
             </span>
           )}

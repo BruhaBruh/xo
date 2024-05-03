@@ -8,17 +8,21 @@ import {
 import {
   Metadata,
   User,
+  createEmptyClassicGameState,
   metadataSchema,
-  move,
+  moveClassicGame,
   structureError,
 } from '@xo/games';
 import EventEmitter from 'node:events';
 import { Socket } from 'socket.io';
 import { z } from 'zod';
 
-const moveSchema = z.object({
-  id: z.number().min(0).max(8),
-});
+const messageSchema = z
+  .object({
+    type: z.literal('move'),
+    id: z.number().min(0).max(8),
+  })
+  .or(z.object({ type: z.literal('restart') }));
 
 const ee = new EventEmitter();
 
@@ -75,7 +79,7 @@ export const configureClassicGameSocket = (socket: Socket) => {
 
     // #region move
     socket.on(roomId, async (rawMove) => {
-      const r = moveSchema.safeParse(rawMove);
+      const r = messageSchema.safeParse(rawMove);
 
       if (!r.success) {
         socket.emit(roomId, {
@@ -85,8 +89,6 @@ export const configureClassicGameSocket = (socket: Socket) => {
 
         return;
       }
-      const { id } = r.data;
-
       const room = await getRoom('classic', metadata.code);
 
       if (!room) {
@@ -96,9 +98,18 @@ export const configureClassicGameSocket = (socket: Socket) => {
       }
       if (room.info.o.status === 'waiting' || room.info.x.status === 'waiting')
         return;
-      if (user !== room.state.userToMove) return;
 
-      room.state = move(room.state, id);
+      const msg = r.data;
+
+      if (msg.type === 'restart') {
+        room.state = createEmptyClassicGameState();
+      }
+
+      if (msg.type === 'move') {
+        if (user !== room.state.userToMove) return;
+
+        room.state = moveClassicGame(room.state, msg.id);
+      }
 
       await saveRoom('classic', room);
 

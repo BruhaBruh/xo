@@ -20,7 +20,7 @@ export const middleware: NextMiddleware = (req) => {
   if (!nickname) {
     res.cookies.set({
       name: NICKNAME_COOKIE,
-      value: `user-${randomId()}`,
+      value: `P-${randomId().substring(0, 4)}`,
       maxAge: 2147483647,
       sameSite: 'lax',
     });
