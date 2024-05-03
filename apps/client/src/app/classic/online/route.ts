@@ -7,7 +7,7 @@ const createRoom = async (
   nickname: string
 ): Promise<Room<'classic'> | null> => {
   const res = await fetch(
-    `http://${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/classic`,
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/classic`,
     {
       cache: 'no-cache',
       method: 'POST',

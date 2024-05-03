@@ -18,7 +18,7 @@ const getRoom = async (
   nickname: string
 ): Promise<Room<'classic'> | null> => {
   const url = new URL(
-    `http://${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/classic/${code}`
+    `${process.env.NEXT_PUBLIC_SERVER_URL}/api/v1/classic/${code}`
   );
 
   url.searchParams.set('userId', userId);
