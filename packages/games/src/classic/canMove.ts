@@ -1,6 +1,6 @@
 import { ClassicGameState } from '../types';
 
-export const canMove = (
+export const canMoveClassicGame = (
   winner: ClassicGameState['winner'],
   field: ClassicGameState['field'],
   id: number

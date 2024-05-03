@@ -1,6 +1,5 @@
 import { createRoom } from '@/lib/room';
-import { nicknameSchema, userIdSchema } from '@/lib/validation';
-import { structureError } from '@/lib/zod';
+import { nicknameSchema, structureError, userIdSchema } from '@xo/games';
 import { RequestHandler } from 'express';
 import { z } from 'zod';
 

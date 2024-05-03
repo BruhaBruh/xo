@@ -1,5 +1,5 @@
 import { redis } from '@/lib/redis';
-import { GameType, Room } from '@/types';
+import { GameType, Room } from '@xo/games';
 import { getRoomId } from './getRoomId';
 
 export const getRoom = async <T extends GameType>(

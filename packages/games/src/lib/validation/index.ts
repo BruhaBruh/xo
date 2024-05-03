@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { StructuredError } from '../zod';
 
 export const codeSchema = z
   .string()
@@ -33,3 +34,8 @@ export type Code = z.infer<typeof codeSchema>;
 export type UserId = z.infer<typeof userIdSchema>;
 export type Nickname = z.infer<typeof nicknameSchema>;
 export type Metadata = z.infer<typeof metadataSchema>;
+
+export type CodeError = StructuredError<z.infer<typeof codeSchema>>;
+export type UserIdError = StructuredError<z.infer<typeof userIdSchema>>;
+export type NicknameError = StructuredError<z.infer<typeof nicknameSchema>>;
+export type MetadataError = StructuredError<z.infer<typeof metadataSchema>>;

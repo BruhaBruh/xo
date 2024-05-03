@@ -1,4 +1,4 @@
-import { GameType, Room } from '@/types';
+import { GameType, Room } from '@xo/games';
 import { getRoom } from './getRoom';
 import { hasUserInRoom } from './hasUserInRoom';
 import { isUserTypeInRoom } from './isUserTypeInRoom';

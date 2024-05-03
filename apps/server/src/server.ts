@@ -18,5 +18,3 @@ export const createServer = () => {
     cb?.();
   };
 };
-
-createServer();

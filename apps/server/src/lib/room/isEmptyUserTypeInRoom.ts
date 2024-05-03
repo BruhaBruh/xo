@@ -1,5 +1,4 @@
-import { GameType, Room } from '@/types';
-import { User } from '@xo/games';
+import { GameType, Room, User } from '@xo/games';
 
 export const isEmptyUserTypeInRoom = <R extends Room<GameType>>(
   room: R,

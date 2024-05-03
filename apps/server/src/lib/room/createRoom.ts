@@ -1,8 +1,13 @@
-import { randomId } from '@/lib/randomId';
 import { redis } from '@/lib/redis';
-import { Nickname, UserId } from '@/lib/validation';
-import { GameState, GameType, Room } from '@/types';
-import { createEmptyClassicGameState } from '@xo/games';
+import {
+  GameState,
+  GameType,
+  Nickname,
+  Room,
+  UserId,
+  createEmptyClassicGameState,
+  randomId,
+} from '@xo/games';
 import { getRoomId } from './getRoomId';
 import { saveRoom } from './saveRoom';
 

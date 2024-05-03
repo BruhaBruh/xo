@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { createEmptyField } from './createEmptyField';
+import { createEmptyClassicGameField } from './createEmptyField';
 import { createEmptyClassicGameState } from './createEmptyGameState';
 
 describe('createEmptyGameState - ClassicGame', () => {
@@ -12,7 +12,7 @@ describe('createEmptyGameState - ClassicGame', () => {
   it('should create empty game field', () => {
     const game = createEmptyClassicGameState();
 
-    expect(game.field).toEqual(createEmptyField());
+    expect(game.field).toEqual(createEmptyClassicGameField());
   });
 
   it('should create user to move equals x', () => {

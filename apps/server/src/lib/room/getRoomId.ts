@@ -1,4 +1,4 @@
-import { GameType } from '@/types';
+import { GameType } from '@xo/games';
 
 export const getRoomId = <T extends GameType, Code extends string>(
   type: T,

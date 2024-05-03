@@ -1,7 +1,7 @@
 import { defineConfig } from 'tsup';
 
 export default defineConfig({
-  entry: ['./src/server.ts'],
+  entry: ['./src/index.ts'],
   noExternal: ['@xo'], // Bundle any package starting with `@example` and their dependencies
   splitting: false,
   bundle: true,

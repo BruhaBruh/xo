@@ -1,14 +1,17 @@
 import { ClassicGameState } from '../types';
-import { canMove } from './canMove';
-import { getWinner } from './getWinner';
+import { canMoveClassicGame } from './canMove';
+import { getClassicGameWinner } from './getWinner';
 
-export const move = (state: ClassicGameState, id: number): ClassicGameState => {
-  if (!canMove(state.winner, state.field, id)) return state;
+export const moveClassicGame = (
+  state: ClassicGameState,
+  id: number
+): ClassicGameState => {
+  if (!canMoveClassicGame(state.winner, state.field, id)) return state;
 
   const newState = structuredClone(state);
   newState.field[id] = state.userToMove;
   newState.userToMove = state.userToMove === 'x' ? 'o' : 'x';
-  newState.winner = getWinner(newState.field);
+  newState.winner = getClassicGameWinner(newState.field);
 
   return newState;
 };

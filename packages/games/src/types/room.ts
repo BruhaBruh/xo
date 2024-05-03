@@ -1,8 +1,6 @@
-import {
-  ClassicGameState,
-  MatrixGameState,
-  OnlyThreeGameState,
-} from '@xo/games';
+import { ClassicGameState } from './classic';
+import { MatrixGameState } from './matrix';
+import { OnlyThreeGameState } from './onlythree';
 
 export type PlayerStatus = 'connected' | 'disconnected' | 'waiting';
 
@@ -22,11 +20,13 @@ export type GameState<T extends GameType> = T extends 'classic'
       ? OnlyThreeGameState
       : never;
 
+export type RoomInfo = {
+  code: string;
+  x: Player;
+  o: Player;
+};
+
 export type Room<T extends GameType> = {
-  info: {
-    code: string;
-    x: Player;
-    o: Player;
-  };
+  info: RoomInfo;
   state: GameState<T>;
 };

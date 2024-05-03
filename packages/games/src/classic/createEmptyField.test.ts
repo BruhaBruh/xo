@@ -1,9 +1,9 @@
 import { describe, expect, it } from 'vitest';
-import { createEmptyField } from './createEmptyField';
+import { createEmptyClassicGameField } from './createEmptyField';
 
 describe('createEmptyField - ClassicGame', () => {
   it('should create empty field', () => {
-    expect(createEmptyField()).toEqual([
+    expect(createEmptyClassicGameField()).toEqual([
       null,
       null,
       null,

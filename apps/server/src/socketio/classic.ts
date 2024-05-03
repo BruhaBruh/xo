@@ -5,9 +5,13 @@ import {
   isUserTypeInRoom,
   saveRoom,
 } from '@/lib/room';
-import { Metadata, metadataSchema } from '@/lib/validation';
-import { structureError } from '@/lib/zod';
-import { User, move } from '@xo/games';
+import {
+  Metadata,
+  User,
+  metadataSchema,
+  move,
+  structureError,
+} from '@xo/games';
 import EventEmitter from 'node:events';
 import { Socket } from 'socket.io';
 import { z } from 'zod';

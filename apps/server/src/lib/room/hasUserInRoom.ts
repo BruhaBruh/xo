@@ -1,5 +1,4 @@
-import { UserId } from '@/lib/validation';
-import { GameType, Room } from '@/types';
+import { GameType, Room, UserId } from '@xo/games';
 import { isUserTypeInRoom } from './isUserTypeInRoom';
 
 export const hasUserInRoom = <R extends Room<GameType>>(

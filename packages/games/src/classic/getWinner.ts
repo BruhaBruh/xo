@@ -1,6 +1,8 @@
 import { ClassicGameState, Tuple, User, WinnerOrDraw } from '../types';
 
-export const getWinner = (field: ClassicGameState['field']): WinnerOrDraw => {
+export const getClassicGameWinner = (
+  field: ClassicGameState['field']
+): WinnerOrDraw => {
   const winnerLines: Tuple<number, 3>[] = [
     // first row
     [0, 1, 2],

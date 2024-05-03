@@ -1,6 +1,5 @@
 import { getRoom } from '@/lib/room';
-import { metadataSchema } from '@/lib/validation';
-import { structureError } from '@/lib/zod';
+import { metadataSchema, structureError } from '@xo/games';
 import { RequestHandler } from 'express';
 
 export const getClassicRoomByCode: RequestHandler<{
