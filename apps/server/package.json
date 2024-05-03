@@ -1,5 +1,5 @@
 {
-  "name": "@xo/server",
+  "name": "server",
   "version": "1.0.0",
   "description": "",
   "engines": {
@@ -13,7 +13,7 @@
     "start": "cross-env NODE_PATH=dist node dist/index.js",
     "build": "tsup",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist && rm *.tsbuildinfo",
+    "clean": "rm -rf .turbo && rm -rf node_modules && rm -rf dist",
     "lint": "eslint . --quiet"
   },
   "keywords": [],

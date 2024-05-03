@@ -6,7 +6,7 @@ dotenv.config();
 const envSchema = z.object({
   HOST: z.string().ip({ version: 'v4' }).default('0.0.0.0'),
   PORT: z.preprocess(
-    (v) => Number.parseInt(v?.toString() || '', 10),
+    (v) => Number.parseInt(v?.toString() || '5000', 10),
     z.number().min(1).max(65535).default(5000)
   ),
   REDIS_URL: z.string().default('redis://localhost:6379'),
