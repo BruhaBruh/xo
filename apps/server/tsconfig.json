@@ -1,0 +1,11 @@
+{
+  "extends": "@xo/tsconfig/tsconfig.node.json",
+  "compilerOptions": {
+    "baseUrl": "."
+  },
+  "include": [".", ".eslintrc.js"],
+  "exclude": ["./dist", "./build", "./node_modules"],
+  "ts-node": {
+    "swc": true
+  }
+}
