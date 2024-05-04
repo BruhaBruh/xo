@@ -4,29 +4,29 @@ import { createFastContext } from '@/lib/fastContext';
 import { socket } from '@/lib/socket';
 import { useInfo } from '@/providers/Info';
 import {
-  ClassicGameState,
+  OnlyThreeGameState,
   Room,
-  canMoveClassicGame,
-  createEmptyClassicGameState,
+  canMoveOnlyThreeGame,
+  createEmptyOnlyThreeGameState,
 } from '@xo/games';
 import { useRouter } from 'next/navigation';
 import React from 'react';
 
-const { Provider, useStore: useClassicGame } = createFastContext(
-  createEmptyClassicGameState('x')
+const { Provider, useStore: useOnlyThreeGame } = createFastContext(
+  createEmptyOnlyThreeGameState('x')
 );
 
-export const ClassicGameOnlineProvider: React.FC<
+export const OnlyThreeGameOnlineProvider: React.FC<
   React.PropsWithChildren<{
-    state: ClassicGameState;
+    state: OnlyThreeGameState;
   }>
 > = ({ state, children }) => {
   return <Provider value={state}>{children}</Provider>;
 };
 
-export const useClassicGameOnlineSocket = () => {
+export const useOnlyThreeGameOnlineSocket = () => {
   const [info, setInfo] = useInfo();
-  const [, setState] = useClassicGame();
+  const [, setState] = useOnlyThreeGame();
   const router = useRouter();
 
   const connect = React.useCallback(() => {
@@ -34,7 +34,7 @@ export const useClassicGameOnlineSocket = () => {
     if (!info.nickname) return;
     if (!info.code) return;
 
-    socket.emit('classic-connect', {
+    socket.emit('onlythree-connect', {
       userId: info.userId,
       nickname: info.nickname,
       code: info.code,
@@ -42,7 +42,7 @@ export const useClassicGameOnlineSocket = () => {
   }, [info.code, info.nickname, info.userId]);
 
   const disconnect = React.useCallback(() => {
-    socket.emit('classic-disconnect');
+    socket.emit('onlythree-disconnect');
   }, []);
 
   React.useEffect(() => {
@@ -50,22 +50,22 @@ export const useClassicGameOnlineSocket = () => {
     if (!info.nickname) return;
     if (!info.code) return;
 
-    const classicConnectListener = (data: unknown) => {
+    const onlythreeConnectListener = (data: unknown) => {
       console.error(data);
-      router.replace('/classic');
+      router.replace('/onlythree');
     };
 
-    const roomListener = (room: Room<'classic'>) => {
+    const roomListener = (room: Room<'onlythree'>) => {
       setInfo(room.info);
       setState(room.state);
     };
 
-    socket.once('classic-connect', classicConnectListener);
-    socket.on(`classic-${info.code}`, roomListener);
+    socket.once('onlythree-connect', onlythreeConnectListener);
+    socket.on(`onlythree-${info.code}`, roomListener);
 
     return () => {
-      socket.off('classic-connect', classicConnectListener);
-      socket.off(`classic-${info.code}`, roomListener);
+      socket.off('onlythree-connect', onlythreeConnectListener);
+      socket.off(`onlythree-${info.code}`, roomListener);
     };
   }, [info, router, setInfo, setState]);
 
@@ -75,22 +75,22 @@ export const useClassicGameOnlineSocket = () => {
   };
 };
 
-export const useClassicGameOnlineCanMove = () => {
+export const useOnlyThreeGameOnlineCanMove = () => {
   const [info] = useInfo();
-  const [state] = useClassicGame();
+  const [state] = useOnlyThreeGame();
 
   const canMove = (id: number): boolean => {
     if (info[state.userToMove].id !== info.userId) return false;
 
-    return canMoveClassicGame(state.winner, state.field, id);
+    return canMoveOnlyThreeGame(state.winner, state.field, id);
   };
 
   return canMove;
 };
 
-export const useClassicGameOnlineMove = () => {
+export const useOnlyThreeGameOnlineMove = () => {
   const [info] = useInfo();
-  const [state] = useClassicGame();
+  const [state] = useOnlyThreeGame();
 
   const move = (id: number): void => {
     if (!info.userId) return;
@@ -98,13 +98,13 @@ export const useClassicGameOnlineMove = () => {
     if (!info.code) return;
     if (info[state.userToMove].id !== info.userId) return;
 
-    socket.emit(`classic-${info.code}`, { type: 'move', id });
+    socket.emit(`onlythree-${info.code}`, { type: 'move', id });
   };
 
   return move;
 };
 
-export const useClassicGameOnlineRestart = () => {
+export const useOnlyThreeGameOnlineRestart = () => {
   const [info] = useInfo();
 
   const restart = (): void => {
@@ -113,17 +113,17 @@ export const useClassicGameOnlineRestart = () => {
     if (!info.code) return;
     if (info.x.id !== info.userId) return;
 
-    socket.emit(`classic-${info.code}`, { type: 'restart' });
+    socket.emit(`onlythree-${info.code}`, { type: 'restart' });
   };
 
   return restart;
 };
 
-export const useClassicGameOnline = () => {
-  const [state] = useClassicGame();
-  const canMove = useClassicGameOnlineCanMove();
-  const move = useClassicGameOnlineMove();
-  const restart = useClassicGameOnlineRestart();
+export const useOnlyThreeGameOnline = () => {
+  const [state] = useOnlyThreeGame();
+  const canMove = useOnlyThreeGameOnlineCanMove();
+  const move = useOnlyThreeGameOnlineMove();
+  const restart = useOnlyThreeGameOnlineRestart();
 
   const functions = { canMove, move, restart };
 

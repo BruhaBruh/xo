@@ -6,6 +6,7 @@ import {
   Room,
   UserId,
   createEmptyClassicGameState,
+  createEmptyOnlyThreeGameState,
   randomId,
 } from '@xo/games';
 import { getRoomId } from './getRoomId';
@@ -13,6 +14,8 @@ import { saveRoom } from './saveRoom';
 
 const createEmptyGameState = <T extends GameType>(type: T): GameState<T> => {
   if (type === 'classic') return createEmptyClassicGameState() as GameState<T>;
+  if (type === 'onlythree')
+    return createEmptyOnlyThreeGameState() as GameState<T>;
   throw new Error('Unknown game type');
 };
 
