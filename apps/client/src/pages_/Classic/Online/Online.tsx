@@ -11,7 +11,6 @@ import {
 import { BackRestart } from '@/components/widget';
 import { GameLayout } from '@/layouts/Game';
 import { cn } from '@/lib/shadcn';
-import { socket } from '@/lib/socket';
 import {
   useClassicGameOnline,
   useClassicGameOnlineSocket,
@@ -26,13 +25,13 @@ export const ClassicOnlinePage: React.FC = () => {
   const [{ field, userToMove, winner }, { move, canMove, restart }] =
     useClassicGameOnline();
 
-  useClassicGameOnlineSocket();
+  const { connect, disconnect } = useClassicGameOnlineSocket();
 
   React.useEffect(() => {
-    return () => {
-      socket.emit('classic-disconnect');
-    };
-  }, []);
+    connect();
+
+    return () => disconnect();
+  }, [connect, disconnect]);
 
   return (
     <GameLayout

@@ -28,7 +28,22 @@ export const useClassicGameOnlineSocket = () => {
   const [info, setInfo] = useInfo();
   const [, setState] = useClassicGame();
   const router = useRouter();
-  const connectIsSended = React.useRef(false);
+
+  const connect = React.useCallback(() => {
+    if (!info.userId) return;
+    if (!info.nickname) return;
+    if (!info.code) return;
+
+    socket.emit('classic-connect', {
+      userId: info.userId,
+      nickname: info.nickname,
+      code: info.code,
+    });
+  }, [info.code, info.nickname, info.userId]);
+
+  const disconnect = React.useCallback(() => {
+    socket.emit('classic-disconnect');
+  }, []);
 
   React.useEffect(() => {
     if (!info.userId) return;
@@ -37,7 +52,6 @@ export const useClassicGameOnlineSocket = () => {
 
     const classicConnectListener = (data: unknown) => {
       console.error(data);
-      connectIsSended.current = false;
       router.replace('/classic');
     };
 
@@ -49,20 +63,16 @@ export const useClassicGameOnlineSocket = () => {
     socket.once('classic-connect', classicConnectListener);
     socket.on(`classic-${info.code}`, roomListener);
 
-    if (!connectIsSended.current) {
-      socket.emit('classic-connect', {
-        userId: info.userId,
-        nickname: info.nickname,
-        code: info.code,
-      });
-      connectIsSended.current = true;
-    }
-
     return () => {
       socket.off('classic-connect', classicConnectListener);
       socket.off(`classic-${info.code}`, roomListener);
     };
   }, [info, router, setInfo, setState]);
+
+  return {
+    connect,
+    disconnect,
+  };
 };
 
 export const useClassicGameOnlineCanMove = () => {
