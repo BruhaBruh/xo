@@ -75,6 +75,16 @@ export const configureClassicGameSocket = (socket: Socket) => {
       if (!room) return;
       ee.emit(metadata.code, room);
     });
+
+    socket.on('classic-disconnect', async () => {
+      const room = await disconnectFromRoom(
+        'classic',
+        metadata.code,
+        metadata.userId
+      );
+      if (!room) return;
+      ee.emit(metadata.code, room);
+    });
     // #endregion
 
     // #region move

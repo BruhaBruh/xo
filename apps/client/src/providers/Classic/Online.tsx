@@ -38,7 +38,6 @@ export const useClassicGameOnlineSocket = () => {
     const classicConnectListener = (data: unknown) => {
       console.error(data);
       connectIsSended.current = false;
-      socket.close();
       router.replace('/classic');
     };
 
@@ -62,6 +61,7 @@ export const useClassicGameOnlineSocket = () => {
     return () => {
       socket.off('classic-connect', classicConnectListener);
       socket.off(`classic-${info.code}`, roomListener);
+      socket.emit('classic-disconnect');
     };
   }, [info, router, setInfo, setState]);
 };
