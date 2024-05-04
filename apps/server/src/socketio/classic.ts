@@ -7,6 +7,7 @@ import {
 } from '@/lib/room';
 import {
   Metadata,
+  Room,
   User,
   createEmptyClassicGameState,
   metadataSchema,
@@ -27,7 +28,7 @@ const messageSchema = z
 const ee = new EventEmitter();
 
 export const configureClassicGameSocket = (socket: Socket) => {
-  socket.once('classic-connect', async (rawMetadata: Metadata) => {
+  socket.on('classic-connect', async (rawMetadata: Metadata) => {
     // #region metadata validation
     const result = metadataSchema.safeParse(rawMetadata);
 
@@ -61,35 +62,14 @@ export const configureClassicGameSocket = (socket: Socket) => {
       : 'o';
     const roomId = `classic-${metadata.code}`;
 
-    ee.on(metadata.code, (room) => socket.emit(roomId, room));
+    const eeHandler = (room: Room<'classic'>) => socket.emit(roomId, room);
+    ee.on(metadata.code, eeHandler);
     ee.emit(metadata.code, connectedRoom);
     // #endregion
 
-    // #region disconnect from room on close connection
-    socket.conn.on('close', async () => {
-      const room = await disconnectFromRoom(
-        'classic',
-        metadata.code,
-        metadata.userId
-      );
-      if (!room) return;
-      ee.emit(metadata.code, room);
-    });
-
-    socket.on('classic-disconnect', async () => {
-      const room = await disconnectFromRoom(
-        'classic',
-        metadata.code,
-        metadata.userId
-      );
-      if (!room) return;
-      ee.emit(metadata.code, room);
-    });
-    // #endregion
-
     // #region move
-    socket.on(roomId, async (rawMove) => {
-      const r = messageSchema.safeParse(rawMove);
+    const roomHandler = async (rawData: z.infer<typeof messageSchema>) => {
+      const r = messageSchema.safeParse(rawData);
 
       if (!r.success) {
         socket.emit(roomId, {
@@ -124,7 +104,28 @@ export const configureClassicGameSocket = (socket: Socket) => {
       await saveRoom('classic', room);
 
       ee.emit(metadata.code, room);
-    });
+    };
+
+    socket.on(roomId, roomHandler);
+    // #endregion
+
+    // #region disconnect from room on close connection
+    const closeLogic = async () => {
+      const room = await disconnectFromRoom(
+        'classic',
+        metadata.code,
+        metadata.userId
+      );
+      if (!room) return;
+      ee.emit(metadata.code, room);
+      ee.off(metadata.code, eeHandler);
+      socket.off(roomId, roomHandler);
+      socket.conn.off('close', closeLogic);
+      socket.off('classic-disconnect', closeLogic);
+    };
+
+    socket.conn.once('close', closeLogic);
+    socket.once('classic-disconnect', closeLogic);
     // #endregion
   });
 };
