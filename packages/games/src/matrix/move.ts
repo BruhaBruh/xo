@@ -17,7 +17,7 @@ export const moveMatrixGame = (
   newState.field[matrixId].field[id] = newState.userToMove;
 
   newState.field[matrixId].winner = getMatrixGameFieldWinner(
-    state.field[matrixId].field
+    newState.field[matrixId].field
   );
 
   newState.allowedMatrixCellToMove =

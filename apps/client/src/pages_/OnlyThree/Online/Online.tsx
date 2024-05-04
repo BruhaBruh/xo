@@ -1,7 +1,7 @@
 'use client';
 
-import { Input, InputField, Label, OIcon, XIcon } from '@/components/ui';
-import { BackRestart } from '@/components/widget';
+import { OIcon, XIcon } from '@/components/ui';
+import { BackRestart, CodeLinkCopy } from '@/components/widget';
 import { GameLayout } from '@/layouts/Game';
 import { cn } from '@/lib/shadcn';
 import { useInfo } from '@/providers/Info';
@@ -66,10 +66,7 @@ export const OnlyThreeOnlinePage: React.FC = () => {
           />
         </>
       )}
-      <InputField className="max-w-max mx-auto mt-2">
-        <Label htmlFor="code">Code</Label>
-        <Input id="code" readOnly value={info.code} />
-      </InputField>
+      <CodeLinkCopy code={info.code} />
     </GameLayout>
   );
 };
