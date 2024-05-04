@@ -1,5 +1,5 @@
 import { Button, Input, InputField, Label } from '@/components/ui';
-import { CheckCircle, Copy } from 'lucide-react';
+import { Check, Copy } from 'lucide-react';
 import React from 'react';
 import { useCopyToClipboard } from 'usehooks-ts';
 
@@ -33,7 +33,7 @@ export const InputWithCopy: React.FC<{
         <Input id={id} readOnly value={value} className="flex-1" />
         <Button size="icon" variant="outline" onClick={() => copy(value)}>
           {isSuccess ? (
-            <CheckCircle className="h-4 w-4" />
+            <Check className="h-4 w-4" />
           ) : (
             <Copy className="h-4 w-4" />
           )}
