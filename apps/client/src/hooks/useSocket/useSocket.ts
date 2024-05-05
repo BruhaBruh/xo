@@ -37,4 +37,6 @@ export const useSocket = () => {
       socket.off('disconnect', onDisconnect);
     };
   }, []);
+
+  return { isConnected, transport };
 };

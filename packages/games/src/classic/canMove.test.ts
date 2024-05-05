@@ -7,6 +7,7 @@ describe('canMove - ClassicGame', () => {
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), -1)).toEqual(
       false
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 9)).toEqual(
       false
     );
@@ -42,9 +43,11 @@ describe('canMove - ClassicGame', () => {
     expect(canMoveClassicGame('x', createEmptyClassicGameField(), 0)).toEqual(
       false
     );
+
     expect(canMoveClassicGame('o', createEmptyClassicGameField(), 0)).toEqual(
       false
     );
+
     expect(
       canMoveClassicGame('draw', createEmptyClassicGameField(), 0)
     ).toEqual(false);
@@ -54,27 +57,35 @@ describe('canMove - ClassicGame', () => {
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 0)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 1)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 2)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 3)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 4)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 5)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 6)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 7)).toEqual(
       true
     );
+
     expect(canMoveClassicGame(null, createEmptyClassicGameField(), 8)).toEqual(
       true
     );
